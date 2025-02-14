@@ -1,4 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { analyzeFlares } from "../slices/solarData.slice";
 
 export const fetchSolarData = createAsyncThunk(
   "solarData/fetchSolarData",
@@ -15,3 +16,7 @@ export const fetchSolarData = createAsyncThunk(
     }
   }
 );
+
+export const analyzeSolarData = () => async (dispatch, getState) => {
+  dispatch(analyzeFlares());
+};

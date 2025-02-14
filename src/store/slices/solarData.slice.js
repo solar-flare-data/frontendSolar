@@ -1,9 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchSolarData } from "../actions/solarData.action";
+import analyzeFlare from "../actions/flareAnalysis";
 
 const initialState = {
   data: [],
   anomalies: [],
+  analyzedData: [], // Для хранения проанализированных данных
   loading: false,
   error: null,
 };
@@ -14,6 +16,12 @@ const solarDataSlice = createSlice({
   reducers: {
     detectAnomalies: (state) => {
       state.anomalies = state.data.filter((event) => isAnomalous(event));
+    },
+    analyzeFlares: (state) => {
+      state.analyzedData = state.data.map((flare) => {
+        const analysis = analyzeFlare(flare); // Анализируем каждую вспышку
+        return { ...flare, ...analysis }; // Добавляем результаты анализа
+      });
     },
   },
   extraReducers: (builder) => {
@@ -31,7 +39,6 @@ const solarDataSlice = createSlice({
       });
   },
 });
-
 
 const isAnomalous = (event) => {
   const {
@@ -61,5 +68,5 @@ const isAnomalous = (event) => {
   );
 };
 
-export const { detectAnomalies } = solarDataSlice.actions;
+export const { detectAnomalies, analyzeFlares } = solarDataSlice.actions;
 export default solarDataSlice.reducer;
