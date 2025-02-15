@@ -5,6 +5,7 @@ import { fetchSolarData } from "../store/actions/solarData.action";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import { useNavigate } from "react-router-dom";
 
 const redIcon = new L.Icon({
   iconUrl:
@@ -15,6 +16,7 @@ const redIcon = new L.Icon({
 });
 
 const SolarMap = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const affectedAreas = useSelector((state) => state.solarData.affectedAreas);
 
@@ -25,8 +27,13 @@ const SolarMap = () => {
   }, [dispatch]);
 
   return (
-    <div>
-      <h2 style={{margin: "20px"}}>🌍 Danger Zones</h2>
+    <div className="map">
+      <h2 style={{ margin: "20px" }}>Vulnerabile Zones</h2>
+
+      <button className="back-button" onClick={() => navigate("/")}>
+        ← Back
+      </button>
+
       <MapContainer
         center={[20, 0]}
         zoom={2}

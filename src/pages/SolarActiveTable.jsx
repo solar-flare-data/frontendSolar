@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { fetchSolarData } from "../store/actions/solarData.action";
 import { analyzeFlares } from "../store/slices/solarData.slice";
 
 const SolarActiveTable = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const {
     data,
     analyzedData = [],
@@ -23,7 +25,11 @@ const SolarActiveTable = () => {
   }, [data, dispatch]);
 
   return (
-    <div className="container">
+    <div className="solar-container">
+      <button className="back-button" onClick={() => navigate("/")}>
+        ← Back
+      </button>
+
       <h1 className="heading">Solar Flare Data</h1>
       {loading && <p className="loading">Loading...</p>}
       {error && <p className="error">Error: {error}</p>}
@@ -34,14 +40,14 @@ const SolarActiveTable = () => {
           <table className="table">
             <thead>
               <tr className="tableHeaderRow">
-                <th className="tableHeader">ID</th>
-                <th className="tableHeader">Class Type</th>
-                <th className="tableHeader">Peak Time</th>
-                <th className="tableHeader">Start Time</th>
-                <th className="tableHeader">End Time</th>
-                <th className="tableHeader">Reason</th>
-                <th className="tableHeader">Consequences</th>
-                <th className="tableHeader">Danger Level</th>
+                <th>ID</th>
+                <th>Class Type</th>
+                <th>Peak Time</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Reason</th>
+                <th>Consequences</th>
+                <th>Danger Level</th>
               </tr>
             </thead>
             <tbody>
@@ -49,24 +55,16 @@ const SolarActiveTable = () => {
                 analyzedData.map((flare, index) => (
                   <tr
                     key={index}
-                    className={`tableRow ${
-                      flare.dangerLevel >= 80 ? "highDanger" : ""
-                    }`}
+                    className={flare.dangerLevel >= 80 ? "highDanger" : ""}
                   >
-                    <td className="tableData">{flare.flrID}</td>
-                    <td className="tableData">{flare.classType}</td>
-                    <td className="tableData">{flare.peakTime}</td>
-                    <td className="tableData">{flare.beginTime}</td>
-                    <td className="tableData">{flare.endTime}</td>
-                    <td className="tableData">
-                      {flare.reason || "Not Available"}
-                    </td>
-                    <td className="tableData">
-                      {flare.consequences || "Not Available"}
-                    </td>
-                    <td className="tableData">
-                      {flare.dangerLevel || "Unknown"}
-                    </td>
+                    <td>{flare.flrID}</td>
+                    <td>{flare.classType}</td>
+                    <td>{flare.peakTime}</td>
+                    <td>{flare.beginTime}</td>
+                    <td>{flare.endTime}</td>
+                    <td>{flare.reason || "Not Available"}</td>
+                    <td>{flare.consequences || "Not Available"}</td>
+                    <td>{flare.dangerLevel || "Unknown"}</td>
                   </tr>
                 ))
               ) : (

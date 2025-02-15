@@ -6,26 +6,32 @@ const MainPage = () => {
 
   return (
     <div className="main-container">
-      <section className="hero">
-        <h1 className="hero-title">Find Danger Zones</h1>
-        <p className="hero-subtitle">
-          Analyze solar flares and their impact on Earth with our monitoring
-          system.
-        </p>
-        <button className="hero-button" onClick={() => navigate("/map")}>
-          Explore the Map
-        </button>
-      </section>
+      <div className="overlay"></div>
 
-      <section className="buttons-container">
+      <header className="header">
         <button
-          className="action-button"
+          className="header-button"
           onClick={() => navigate("/solarTable")}
         >
-          📊 View Anomaly Table
+          Anomaly Table
         </button>
-        <button className="action-button" onClick={() => navigate("/solarMap")}>
-          🌍 View Vulnerability Map
+        <button className="header-button" onClick={() => navigate("/solarMap")}>
+          Vulnerability Map
+        </button>
+      </header>
+
+      <section className="hero">
+        <h1 className="hero-title">Start your research now!</h1>
+        <p className="hero-subtitle">
+          Welcome to the platform for analyzing solar activity and its impact on
+          Earth
+        </p>
+        <button
+          className="header-button"
+          onClick={() => navigate("/about")}
+          style={{marginTop: "15px"}}
+        >
+          About Project
         </button>
       </section>
     </div>
