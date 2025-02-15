@@ -1,29 +1,30 @@
 const analyzeFlare = (flare) => {
   const { classType, sourceLocation, linkedEvents } = flare;
 
-  let reason = "Не определено";
-  let consequences = "Не определены";
+  let reason = "Not determined";
+  let consequences = "Not determined";
   let dangerLevel = 1;
 
   if (classType.startsWith("X")) {
-    reason = "Очень сильная вспышка, возможное нарушение магнетосферы Земли.";
+    reason =
+      "Extremely strong flare, possible disruption of Earth's magnetosphere.";
     consequences =
-      "Могут возникнуть серьезные проблемы с радиосвязью, спутниками и навигацией.";
+      "Severe issues with radio communication, satellites, and navigation may occur.";
     dangerLevel = 95;
   } else if (classType.startsWith("M")) {
-    reason = "Средняя вспышка, сопровождается усилением солнечной активности.";
+    reason = "Moderate flare, accompanied by increased solar activity.";
     consequences =
-      "Могут быть перебои с радиосвязью на высоких широтах и влияние на спутники.";
+      "Possible disruptions in radio communication at high latitudes and effects on satellites.";
     dangerLevel = 70;
   } else if (classType.startsWith("C")) {
-    reason = "Небольшая вспышка, происходящая на активных солнечных участках.";
-    consequences = "Маловероятно, что будут заметные влияния на Земле.";
+    reason = "Small flare occurring in active solar regions.";
+    consequences = "Unlikely to have significant effects on Earth.";
     dangerLevel = 40;
   }
 
   if (sourceLocation.includes("E0") || sourceLocation.includes("W0")) {
     consequences +=
-      " Вспышка направлена в сторону Земли, что увеличивает риск.";
+      " The flare is directed towards Earth, increasing the risk.";
     dangerLevel += 15;
   }
 
@@ -31,7 +32,7 @@ const analyzeFlare = (flare) => {
     linkedEvents.forEach((event) => {
       if (event.activityID.includes("CME")) {
         consequences +=
-          " Вспышка связана с корональной массой, что усиливает ее эффект.";
+          " The flare is associated with a coronal mass ejection, amplifying its impact.";
         dangerLevel += 25;
       }
     });

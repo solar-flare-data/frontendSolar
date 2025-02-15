@@ -5,7 +5,8 @@ import analyzeFlare from "../actions/flareAnalysis";
 const initialState = {
   data: [],
   anomalies: [],
-  analyzedData: [], // Для хранения проанализированных данных
+  analyzedData: [],
+  affectedAreas: [],
   loading: false,
   error: null,
 };
@@ -19,9 +20,14 @@ const solarDataSlice = createSlice({
     },
     analyzeFlares: (state) => {
       state.analyzedData = state.data.map((flare) => {
-        const analysis = analyzeFlare(flare); // Анализируем каждую вспышку
-        return { ...flare, ...analysis }; // Добавляем результаты анализа
+        const analysis = analyzeFlare(flare);
+        return { ...flare, ...analysis };
       });
+    },
+    updateAffectedAreas: (state) => {
+      state.affectedAreas = state.data
+        .map((flare) => convertSolarToEarthCoords(flare.sourceLocation))
+        .filter(Boolean);
     },
   },
   extraReducers: (builder) => {
@@ -68,5 +74,22 @@ const isAnomalous = (event) => {
   );
 };
 
-export const { detectAnomalies, analyzeFlares } = solarDataSlice.actions;
+const convertSolarToEarthCoords = (sourceLocation) => {
+  if (!sourceLocation) return null;
+
+  const match = sourceLocation.match(/([NS])(\d+)([EW])(\d+)/);
+  if (!match) return null;
+
+  const [, latDir, lat, lonDir, lon] = match;
+  let earthLat = parseInt(lat, 10);
+  let earthLon = parseInt(lon, 10);
+
+  if (latDir === "S") earthLat *= -1;
+  if (lonDir === "W") earthLon = 360 - earthLon;
+
+  return { lat: earthLat, lon: earthLon };
+};
+
+export const { detectAnomalies, analyzeFlares, updateAffectedAreas } =
+  solarDataSlice.actions;
 export default solarDataSlice.reducer;
