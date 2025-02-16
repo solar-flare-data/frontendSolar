@@ -10,7 +10,7 @@ const SolarActiveTable = () => {
   const navigate = useNavigate();
   const {
     data,
-    analyzedData = [], // Ensure it's initialized as an empty array
+    analyzedData = [],
     loading,
     error,
   } = useSelector((state) => state.solarData);
@@ -33,7 +33,6 @@ const SolarActiveTable = () => {
     return <p className="error">Error: {error}</p>; // Show error message if there's an issue fetching data
   }
 
-  // Ensure analyzedData is available and has length
   const hasData = analyzedData && analyzedData.length > 0;
 
   return (

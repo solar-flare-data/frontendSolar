@@ -4,6 +4,7 @@ import SolarActiveTable from '../pages/SolarActiveTable'
 import MainPage from '../pages/MainPage'
 import SolarMap from '../pages/SolarMap'
 import AboutPage from '../pages/AboutPage'
+import Satellites from '../pages/Satellites'
 
 const MainRoutes = () => {
   return (
@@ -12,6 +13,7 @@ const MainRoutes = () => {
         <Route path="/about" element={<AboutPage />} />
         <Route path="/solarTable" element={<SolarActiveTable />} />
         <Route path="/solarMap" element={<SolarMap />} />
+        <Route path="/satellites" element={<Satellites />} />
     </Routes>
   )
 }

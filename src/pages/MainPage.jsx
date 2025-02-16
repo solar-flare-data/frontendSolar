@@ -31,7 +31,7 @@ const MainPage = () => {
         <button className="header-button" onClick={() => navigate("/solarMap")}>
           Vulnerability Map
         </button>
-        <button className="header-button" onClick={() => navigate("/solarMap")}>
+        <button className="header-button" onClick={() => navigate("/satellites")}>
           View Vulnerabile Satellites
         </button>
       </header>
