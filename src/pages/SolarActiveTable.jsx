@@ -3,13 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { fetchSolarData } from "../store/actions/solarData.action";
 import { analyzeFlares } from "../store/slices/solarData.slice";
+import Loader from "../components/Loader";
 
 const SolarActiveTable = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {
     data,
-    analyzedData = [],
+    analyzedData = [], // Ensure it's initialized as an empty array
     loading,
     error,
   } = useSelector((state) => state.solarData);
@@ -19,10 +20,21 @@ const SolarActiveTable = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (data.length > 0) {
+    if (data && data.length > 0) {
       dispatch(analyzeFlares());
     }
   }, [data, dispatch]);
+
+  if (loading) {
+    return <Loader />; // Show loading message if data is being fetched
+  }
+
+  if (error) {
+    return <p className="error">Error: {error}</p>; // Show error message if there's an issue fetching data
+  }
+
+  // Ensure analyzedData is available and has length
+  const hasData = analyzedData && analyzedData.length > 0;
 
   return (
     <div className="solar-container">
@@ -31,8 +43,6 @@ const SolarActiveTable = () => {
       </button>
 
       <h1 className="heading">Solar Flare Data</h1>
-      {loading && <p className="loading">Loading...</p>}
-      {error && <p className="error">Error: {error}</p>}
 
       <div className="tableContainer">
         <h2 className="tableHeading">All Flares:</h2>
@@ -51,7 +61,7 @@ const SolarActiveTable = () => {
               </tr>
             </thead>
             <tbody>
-              {analyzedData.length > 0 ? (
+              {hasData ? (
                 analyzedData.map((flare, index) => (
                   <tr
                     key={index}

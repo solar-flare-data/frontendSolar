@@ -1,7 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import Loader from "../components/Loader"; // Assuming you have a loader component
 
 const AboutPage = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate a loading process (e.g., waiting for data to load)
+    setTimeout(() => {
+      setLoading(false); // After 2 seconds, set loading to false
+    }, 2000); // Adjust this timeout to fit your actual data loading time
+  }, []);
+
+  if (loading) {
+    return <Loader />; // Show loader during loading state
+  }
+
   return (
     <div className="about-container">
       <header className="about-header">

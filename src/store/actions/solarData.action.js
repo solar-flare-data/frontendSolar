@@ -6,7 +6,7 @@ export const fetchSolarData = createAsyncThunk(
   async () => {
     try {
       const response = await fetch(
-        "https://backend-production-c43b.up.railway.app/solar-flare-data/"
+        "https://backendsolar-production.up.railway.app/solar-flare/data"
       );
       const data = await response.json();
       console.log(data);
@@ -17,7 +17,7 @@ export const fetchSolarData = createAsyncThunk(
   }
 );
 
-export const analyzeSolarData = () => async (dispatch, getState) => {
+export const analyzeSolarData = () => async (dispatch) => {
   dispatch(analyzeFlares());
 };
 
